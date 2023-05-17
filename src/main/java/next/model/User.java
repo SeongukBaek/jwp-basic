@@ -72,4 +72,7 @@ public class User {
         return true;
     }
 
+    public boolean matchPassword(String password) {
+        return this.password == password;
+    }
 }
