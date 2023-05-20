@@ -73,6 +73,6 @@ public class User {
     }
 
     public boolean matchPassword(String password) {
-        return this.password == password;
+        return this.password.equals(password);
     }
 }

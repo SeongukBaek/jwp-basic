@@ -11,7 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Objects;
 
 @WebServlet(value = {"/user/updateForm", "/user/update"})
 public class UpdateUserServlet extends HttpServlet {
@@ -24,6 +26,19 @@ public class UpdateUserServlet extends HttpServlet {
         User user = DataBase.findUserById(userId);
 
         log.debug("userId : {}", userId);
+
+        HttpSession httpSession = req.getSession();
+        Object value = httpSession.getAttribute("user");
+
+        if (value == null) {
+            return;
+        }
+
+        User sessionUser = (User) value;
+
+        if (!sessionUser.getUserId().equals(userId)) {
+            return;
+        }
 
         req.setAttribute("user", user);
         RequestDispatcher rd = req.getRequestDispatcher("/user/updateForm.jsp");
